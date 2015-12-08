@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+    <meta chaset="utf-8">
+    <script src="../static/jquery-2.1.4.min.js"></script>
+    <link href="../static/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/pa_welcome.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="padding-top: 48px;">
+    <div class="row" style="margin:0;max-height:100px">
+            <h1>hello<h1>
+    </div>
+        <hr>
+    <div class="row" style="margin:0;min-height:600px">
+        <div class="jumbotron " >
+            <h1>{{message}}</h1>
+        <div >
+          <h2>您的挂号记录：</h2>
+            {%if data%}
+              {%for item in range(0,len)%}  
+                <p  class="mypanel"> 
+                    编号：{{data[item].num}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                    姓名：{{data[item].Name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    性别：{{data[item].Sex}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    年龄：{{data[item].Age}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    地址：{{data[item].Address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    症状：{{data[item].Sympthon}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    诊断：{{data[item].Analyze_}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+              {%endfor%}
+            {%endif%}
+                <input type="button" class="myflip" value="挂号登记表"></input>
+        </div>
+        <hr>
+        {%if paform%}
+        <sapn class ="myrow"> 
+                <form class="myform" action="../pa_register" method="POST">
+                <p class="mytxt">姓名:</p>         {{paform.name}}
+                <br/><br/>
+                <p class="mytxt">性别:</p>         {{paform.sex}}
+                <br/><br/>
+                <p class="mytxt">年龄:</p>         {{paform.age}}
+                <br/><br/>
+                <p class="mytxt">住址:</p>         {{paform.address}}
+                <br/><br/>
+                <p class="mytxt">症状:</p>         {{paform.sympthon}}
+                <br/><br/>
+                <input class="mytxt" type="submit" value="挂号">
+                </form>
+        </span>
+        {%endif%}
+        </div>
+        
+    </div>
+    <script src="../static/jquery-2.1.4.min.js"></script>
+    <script src="../static/bootstrap.min.js"></script>
+ 
+
+<script>
+$(document).ready(function(){
+  $(".myflip").click(function(){
+    $("form").toggle(300);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+    <meta chaset="utf-8">
+    <script src="../static/jquery-2.1.4.min.js"></script>
+    <link href="../static/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/pa_welcome.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="padding-top: 48px;">
+        <hr>
+    <div class="row" style="margin:0;min-height:600px">
+        <div class="jumbotron " >
+            <h1>{{message}}</h1>
+        <div >
+          <h2>nindexinxi</h2>
+            <p  class="mypanel"> 
+                编号：{{data.num}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                姓名：{{data.Name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                性别：{{data.Sex}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                年龄：{{data.Age}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                地址：{{data.Address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                症状：{{data.Sympthon}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                诊断：{{data.Analyze_}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </p>
+                <p class="myflip" >View more</p>
+        </div>
+        <hr>
+        {%if paform%}
+        <div calss ="mypanel"> 
+                <form method="POST">
+                {{paform.name}}
+                <br/>
+                {{paform.sex}}
+                <br/>
+                {{paform.age}}
+                <br/>
+                {{paform.address}}
+                <br/>
+                {{paform.sympthon}}
+                <br/>
+                </form>
+        </div>
+        {%endif%}
+        </div>
+        
+    </div>
+    <script src="../static/jquery-2.1.4.min.js"></script>
+    <script src="../static/bootstrap.min.js"></script>
+ 
+
+<script>
+$(document).ready(function(){
+  $(".myflip").click(function(){
+    $(".mypanel").slideToggle("slow");
+  });
+});
+</script>
+</body>
+</html>

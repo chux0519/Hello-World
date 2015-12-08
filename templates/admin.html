@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+    <meta chaset="utf-8">
+    <script src="../static/jquery-2.1.4.min.js"></script>
+    <link href="../static/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="padding-top: 48px;">
+    <div class="bs-callout bs-callout-info mt0">
+        <div class="alert alert-danger">
+            <p></p>
+            <h4>{{message}}</h4>
+            <p></p>
+        </div>
+    </div>
+    <div class="row" style="margin:0;min-height:600px">
+        <div class="jumbotron search-box">
+            <p>请输入病人姓名：</p>
+            <div class="input-group">
+                <input placeholder="Name"
+                       type="text" name="id" id="keyword" class="form-control">
+                    <span class="input-group-btn scan-but-span">
+                        <button class="btn btn-success" onclick="scan()" type="button">查看信息</button>
+                    </span>
+            </div>
+            <div class="input-group mt15">
+            
+                  </div>
+                <div id="scan-result-box">
+            </div>
+        </div>
+        <div id="container" class="row" style="hight:280px">
+        </div>
+    </div>
+
+    <script src="../static/jquery-2.1.4.min.js"></script>
+    <script src="../static/bootstrap.min.js"></script>
+ 
+
+    <script>
+    var keyword = "";
+    function scan(){
+        keyword = $.trim($("#keyword").val());
+        if(keyword==''){
+            alert('请输入***');
+            $("#keyword").focus()
+            return false;
+        }
+        /*alert (keyword);*/
+        $.ajax({
+            url:"/admin",
+            type:'GET',
+            dataType:'json',
+            data:{"Name":$("#keyword").val()},
+            success:function(data)
+            {
+                if(!data.Name){
+                    alert('没有您的信息!');
+                    return false;
+                }
+                var re="<ul>";
+
+                re+="<li>编号："+data.num+'</li>';
+                re+="<li>姓名："+data.Name+'</li>';
+                re+="<li>性别："+data.Sex+'</li>';
+                re+="<li>年龄："+data.Age+'</li>';
+                re+="<li>地址："+data.Address+'</li>';
+                re+="<li>症状："+data.Sympthon+'</li>';
+                re+="<li>诊断："+data.Analyze_+'</li>';
+                re+="</ul>"
+                $('#container').html(re)
+            },
+            error:function(){
+                alert('您的信息不存在!')
+            }
+        })
+    }
+</script>
+</body>
+</html>

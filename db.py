@@ -29,7 +29,7 @@ def User_status(username,password):
 	sql="select Status from users where Name='%s' and Pwd='%s'"%(username,password)
 	cur.execute(sql)
 	status = cur.fetchone()
-	if(status==1):
+	if(status=='1'):
 		msg=u"您当前有可查看的诊断记录！"
 		return msg
 	else:
@@ -45,4 +45,8 @@ def Patient_rec(name):
 	li=rec.__str__()
 	print li
 	conn.close()
-
+def Pa_Reg(name,sex,age,addr,symp):
+	sql="insert into patients (Name,Sex,Age,Address,Sympthon) values('%s','%s','%s','%s','%s')"%(name,sex,age,addr,symp)
+	cur.execute(sql)
+	conn.commit()
+	conn.close()
