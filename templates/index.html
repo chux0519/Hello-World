@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>drug_mapper</title>
+    <script src="/static/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	<h1>welcome</h1>
+    <button onclick="map()" type="button">查看一下</button>
+    <div id="content">
+	<ul>
+		{% for data in package %}
+		<li id = "{{data["master"].num}}">	
+			<p class = "master">目标药物：<br>
+			{%for i in data["master"].info %}
+				{{i}}:{{data["master"].info[i] }}&nbsp&nbsp&nbsp&nbsp
+			{% endfor %}
+			</p></li><hr>
+
+			{%for j in data["slave"] %}
+			<li id = "{{j.num}}">
+				<p class="slave">匹配到的药物：{{loop.index}}
+				<input  type="checkbox" value="{{j.num}}" id="{{data["master"].num}}" name = "slave_checkbox" /><br>
+				{% for k in j.info %}
+				{{k }} {{j.info[k] }}<br>
+				{% endfor %}
+				</p></li><hr>
+			{% endfor %}
+		<br><br>
+		{% endfor %}
+	</ul>
+    </div>
+    <button onclick="Map_Master_Slave()" type="button">提交</button>
+<script>
+function Map_Master_Slave(){
+	var master_arr=new Array();
+	var slave_arr=new Array();
+	var checkboxs = document.getElementsByName("slave_checkbox");
+	console.log(checkboxs.length);
+	for (var i = 0 ;i<checkboxs.length;i++){
+		if (checkboxs[i].checked){
+			// alert(i);
+			master_arr.push(checkboxs[i].id);
+			slave_arr.push(checkboxs[i].value);
+			// alert(checkboxs[i].value);
+		};
+	};
+	console.log(master_arr,slave_arr);
+	var data = {
+		"master_id":master_arr,
+		"slave_id":slave_arr
+	};
+	console.log(data);
+	$.ajax({
+	type: 'POST',
+	url: "/map",
+	dataType: "json",
+	data: JSON.stringify(data),
+	success:function(status){
+		alert("您的操作"+status);
+	},erro:function(status){
+		console.log(status);
+	}
+		})
+}
+</script> 
+</body>
+</html>
