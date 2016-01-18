@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>请输入任务号</title>
+    <script src="/static/jquery-2.1.4.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="/static/welcome.css"> -->
+</head>
+
+<body>
+<p>请输入任务号<input type = "text" id = "task"></p>
+<button onclick="task()" type="button" >提交</button>
+
+<script>
+function task(){
+  var task_num = document.getElementById("task");
+
+  console.log(task_num.value);
+
+  $.ajax({
+  type: 'POST',
+  url: "/",
+  dataType: "json",
+  data: {"task_id":task_num.value},
+  success:function(status){
+    console.log(status);
+    if (status == "success"){
+      alert("提交成功！");
+    }
+
+  },erro:function(status){
+    console.log(status);
+  }
+    })
+}
+</script>
+</body>
+</html>
