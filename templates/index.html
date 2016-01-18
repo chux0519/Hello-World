@@ -2,67 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>drug_mapper</title>
+    <title>药物匹配信息确认</title>
     <script src="/static/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/index.css">
 </head>
-<body>
-	<h1>welcome</h1>
-    <button onclick="map()" type="button">查看一下</button>
-    <div id="content">
-	<ul>
-		{% for data in package %}
-		<li id = "{{data["master"].num}}">	
-			<p class = "master">目标药物：<br>
-			{%for i in data["master"].info %}
-				{{i}}:{{data["master"].info[i] }}&nbsp&nbsp&nbsp&nbsp
-			{% endfor %}
-			</p></li><hr>
 
-			{%for j in data["slave"] %}
-			<li id = "{{j.num}}">
-				<p class="slave">匹配到的药物：{{loop.index}}
-				<input  type="checkbox" value="{{j.num}}" id="{{data["master"].num}}" name = "slave_checkbox" /><br>
-				{% for k in j.info %}
-				{{k }} {{j.info[k] }}<br>
-				{% endfor %}
-				</p></li><hr>
-			{% endfor %}
-		<br><br>
-		{% endfor %}
-	</ul>
+<body>
+
+	<div id = "nav">
+	<a href="#top">
+		<img src="/static/top.png" height="40" width="40" >
+	</a>  
+	<p class = "nav_top">top</p>
+	</div>
+
+	<input type='checkbox' id='sideToggle'>
+	<aside>
+  		<br><br><br><br><br><br>
+  		<h2>匹配索引</h2>
+        {% for data in package %}
+        <a href="#{{loop.index}}">{{loop.index}}</a>
+        {% endfor %}
+    </aside>
+    <div id='wrap'>
+    	<label id='sideMenuControl' for='sideToggle'>=</label>
+        <p>展开</p>
     </div>
-    <button onclick="Map_Master_Slave()" type="button">提交</button>
+  
+  <div class="content">
+  <h1>药物匹配信息确认</h1>
+  <h2>预计有{{ package|length }}个匹配结果</h2>
+  <ul>
+    {% for data in package %}
+    <div class = "result" id = "{{loop.index}}">
+      <p class="counter">第{{loop.index}}个匹配结果<a name="{{loop.index}}" id ="{{loop.index}}"></a></p>
+      <li id = "{{data["master"].num}}" class = "master"> 
+        <div class = "master">
+          <h4 class="master_h">目标药物：</h4>
+          <p class="master_p">
+          {%for i in data["master"].info %}
+            {{i}}:{{data["master"].info[i] }}&nbsp&nbsp&nbsp&nbsp
+          {% endfor %}
+          </p>
+        </div>
+      </li><hr>
+
+      {%for j in data["slave"] %}
+      <li id = "{{j.num}}"  class="slave">
+        <h4 class="slave_h">匹配到的药物：{{loop.index}}</h4>
+        <label class="check_info">若正确匹配请勾选
+        <input  type="checkbox" value="{{j.num}}" id="{{data["master"].num}}" name = "slave_checkbox" />
+        </label>
+        <div class="slave">
+          {% for k in j.info %}
+          {%-if k=='药品名称：'-%}
+          <p style="color:red" class = "slave_p">{{k }} {{j.info[k] }}</p>
+          {% elif k=='生产企业：' %}
+          <p style="color:red" class = "slave_p">{{k }} {{j.info[k] }}</p>
+          {% else %}
+          <p class = "slave_p">{{k }} {{j.info[k] }}</p>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </li><hr>
+      {% endfor %}
+    
+    </div>
+    {% endfor %}
+  </ul>
+  </div>
+    <button onclick="Map_Master_Slave()" type="button" >提交</button>
 <script>
 function Map_Master_Slave(){
-	var master_arr=new Array();
-	var slave_arr=new Array();
-	var checkboxs = document.getElementsByName("slave_checkbox");
-	console.log(checkboxs.length);
-	for (var i = 0 ;i<checkboxs.length;i++){
-		if (checkboxs[i].checked){
-			// alert(i);
-			master_arr.push(checkboxs[i].id);
-			slave_arr.push(checkboxs[i].value);
-			// alert(checkboxs[i].value);
-		};
-	};
-	console.log(master_arr,slave_arr);
-	var data = {
-		"master_id":master_arr,
-		"slave_id":slave_arr
-	};
-	console.log(data);
-	$.ajax({
-	type: 'POST',
-	url: "/map",
-	dataType: "json",
-	data: JSON.stringify(data),
-	success:function(status){
-		alert("您的操作"+status);
-	},erro:function(status){
-		console.log(status);
-	}
-		})
+  var master_arr=new Array();
+  var slave_arr=new Array();
+  var checkboxs = document.getElementsByName("slave_checkbox");
+  console.log(checkboxs.length);
+  for (var i = 0 ;i<checkboxs.length;i++){
+    if (checkboxs[i].checked){
+      // alert(i);
+      master_arr.push(checkboxs[i].id);
+      slave_arr.push(checkboxs[i].value);
+      // alert(checkboxs[i].value);
+    };
+  };
+  console.log(master_arr,slave_arr);
+  var data = {
+    "master_id":master_arr,
+    "slave_id":slave_arr
+  };
+  console.log(data);
+  $.ajax({
+  type: 'POST',
+  url: "/map",
+  dataType: "json",
+  data: data,
+  success:function(status){
+    console.log(status);
+    if (status == "success"){
+      alert("提交成功！");
+    }
+
+  },erro:function(status){
+    console.log(status);
+  }
+    })
 }
 </script> 
 </body>
