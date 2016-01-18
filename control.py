@@ -1,5 +1,6 @@
 # encoding:utf-8
 from flask import Flask, render_template, redirect, request
+from flask import json, jsonify
 from openxl import *
 app = Flask(__name__)
 app.debug = True
@@ -16,9 +17,10 @@ def map():
     # master_arr = request.values.get('master_id', 0)
     status = "failed!"
     if request.method == 'POST':
-        # master_arr = request.form.get(master_id, 0)
+        master_arr = request.form.getlist('master_id',)
         data = request.get_json()
-        print data
+        # data = request.args.get('master_id', '')
+        print data, master_arr
         status = "success!"
     return status
 
