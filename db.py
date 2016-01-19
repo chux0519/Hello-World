@@ -6,8 +6,8 @@ reload(sys)
 exec("sys.setdefaultencoding('utf-8')")
 
 
-def init_database():
-    conn = MySQLdb.connect('127.0.0.1', 'root', 'root', 'mapper')
+def init_database(host, username, password, database):
+    conn = MySQLdb.connect(host, username, password, database)
     cur = conn.cursor()
     print u"连接数据库成功！"
     cur.execute("SET NAMES utf8")

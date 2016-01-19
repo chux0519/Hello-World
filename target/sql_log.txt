@@ -1,1 +1,2 @@
 
+insert into drug_mapper (target,matched) values(108429 ,11521)$2016-01-19 11:47:31

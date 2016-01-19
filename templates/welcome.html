@@ -8,8 +8,11 @@
 </head>
 
 <body>
-<p>请输入任务号<input type = "text" id = "task"></p>
-<button onclick="task()" type="button" >提交</button>
+      <form method='POST' name="form" onsubmit="return check()">
+        任务号:{{form.task_id}}
+        <br/><br/>
+        <input   style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);" type ="submit" value ="提交"/>
+      </form>
 
 <script>
 function task(){
@@ -22,15 +25,6 @@ function task(){
   url: "/",
   dataType: "json",
   data: {"task_id":task_num.value},
-  success:function(status){
-    console.log(status);
-    if (status == "success"){
-      alert("提交成功！");
-    }
-
-  },erro:function(status){
-    console.log(status);
-  }
     })
 }
 </script>
