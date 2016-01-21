@@ -63,21 +63,21 @@ def index():
         # sql = "select middle_result_name from task where task_id = %s" % task_id
         # cur.execute(sql)
         # table_message = cur.fetchone()
-        # print str(table_message)
+        # #print str(table_message)
         task = session_task.query.filter_by(task_id=task_id).first()
         if task:
-            print task.middle_result_name
+            # print task.middle_result_name
             task_config = session_task_config.query.filter_by(
                 middle_result_name=task.middle_result_name).first()
             if task_config:
                 gl = task_info(task_config.master_id, 0, task_config.master_info_stop,
                                task_config.slave_id, task_config.slave_info_start)
-                print gl.slave_info_start, gl.slave_id
+                # print gl.slave_info_start, gl.slave_id
                 package = openxl(task.middle_result_name, gl)
-        print "task_id:", task_id
+        # print "task_id:", task_id
        # cur.close()
        # conn.close()
-        return render_template('show.html', package=package)
+        return render_template('show.html', package=package, task_id=task_id)
     return render_template('welcome.html', form=task_form)
 
 # 用于呈现的路由
@@ -99,22 +99,22 @@ def map():
         cur, conn = init_database('127.0.0.1', 'root', 'toor', 'mapper')
         log = open('target/sql_log.txt', 'a')
         data = request.form.to_dict(flat=False)
-        print len(data["master_id[]"])
+        # print len(data["master_id[]"])
         for i in range(0, len(data["master_id[]"])):
-            print i + 1, data["master_id[]"][i], data["slave_id[]"][i]
-            sql = "insert into drug_mapper (target,matched) values(%s,%s)" % (
-                data["master_id[]"][i], data["slave_id[]"][i])
+            # print i + 1, data["master_id[]"][i], data["slave_id[]"][i]
+            sql = "insert into drug_mapper (target,matched,task_id) values(%s,%s,%s)" % (
+                data["master_id[]"][i], data["slave_id[]"][i], data["task_id"][i])
             cur.execute(sql)
-            print "执行：" + sql
+            # print "执行：" + sql
             conn.commit()
-            print u"执行成功"
+            # print u"执行成功"
             # 写入日志前一定要字符串化信息
             string = sql + "$" + \
                 time.strftime(ISOTIMEFORMAT, time.localtime()) + "\n"
             log.write(string)
         cur.close()
         conn.close()
-        print u"断开数据库连接！"
+        # print u"断开数据库连接！"
         log.close()
         status = "success"
         return json.dumps(status)

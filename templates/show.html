@@ -30,7 +30,7 @@
     </div>
   
   <div class="content">
-  <h1>药物匹配信息确认</h1>
+  <h1>药物匹配信息确认,任务号：{{task_id}}</h1>
   <h2>预计有{{ package|length }}个匹配结果</h2>
   <ul>
     {% for data in package %}
@@ -89,7 +89,8 @@ function Map_Master_Slave(){
   console.log(master_arr,slave_arr);
   var data = {
     "master_id":master_arr,
-    "slave_id":slave_arr
+    "slave_id":slave_arr,
+    "task_id":{{task_id}}
   };
   console.log(data);
   $.ajax({
