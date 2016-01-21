@@ -1,0 +1,5 @@
+insert into task_config (middle_result_name,master_id,master_info_stop,slave_id,slave_info_start)  values('59146.xls','0','21','23','23')$2016-01-21 15:08:23
+insert into task_config (middle_result_name,master_id,master_info_stop,slave_id,slave_info_start)  values('59146.xls','u药品ID','21','23','23')$2016-01-21 15:23:26
+insert into task_config (middle_result_name,master_id,master_info_stop,slave_id,slave_info_start)  values('59146.xls','0','21','23','23')$2016-01-21 15:23:59
+insert into task_config (middle_result_name,master_id,master_info_stop,slave_id,slave_info_start)  values('59146.xls','0','21','23','23')$2016-01-21 15:25:41
+insert into task_config (middle_result_name,master_id,master_info_stop,slave_id,slave_info_start)  values('target/ziyang20160111.xls','2','30','32','32')$2016-01-21 15:27:28

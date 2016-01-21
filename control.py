@@ -8,8 +8,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 ISOTIMEFORMAT = '%Y-%m-%d %X'
 app = Flask(__name__)
-# app.debug = True
-app.debug = False
+app.debug = True
+# app.debug = False
 database = SQLAlchemy(app)
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = 'mysql://root:%s@127.0.0.1/mapper' % ('toor')
@@ -23,9 +23,33 @@ class session_task(database.Model):
     student_name = database.Column(database.String(50))
 
 
+class session_task_config(database.Model):
+    __tablename__ = 'task_config'
+    middle_result_name = database.Column(
+        database.String(200), primary_key=True)
+    master_id = database.Column(database.Integer)
+    master_info_stop = database.Column(database.Integer)
+    slave_id = database.Column(database.Integer)
+    slave_info_start = database.Column(database.Integer)
+
+
 class form_id(Form):
     task_id = TextField("task_id", [validators.Required()])
 
+
+class task_info():
+    master_id = 0
+    master_info_start = 0
+    master_info_stop = 0
+    slave_id = 0
+    slave_info_start = 0
+
+    def __init__(self, master_id, master_info_start, master_info_stop, slave_id, slave_info_start):
+        self.master_id = master_id
+        self.master_info_start = master_info_start
+        self.master_info_stop = master_info_stop
+        self.slave_id = slave_id
+        self.slave_info_start = slave_info_start
 # 主页路由
 
 
@@ -43,7 +67,13 @@ def index():
         task = session_task.query.filter_by(task_id=task_id).first()
         if task:
             print task.middle_result_name
-            package = openxl(task.middle_result_name)
+            task_config = session_task_config.query.filter_by(
+                middle_result_name=task.middle_result_name).first()
+            if task_config:
+                gl = task_info(task_config.master_id, 0, task_config.master_info_stop,
+                               task_config.slave_id, task_config.slave_info_start)
+                print gl.slave_info_start, gl.slave_id
+                package = openxl(task.middle_result_name, gl)
         print "task_id:", task_id
        # cur.close()
        # conn.close()

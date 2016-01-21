@@ -21,3 +21,4 @@ slave_info_start = 25  # AI__34
 master_id = 0
 master_info_start = 4
 master_info_stop = 10
+info = []

@@ -1,7 +1,6 @@
 # encoding:utf-8
 # from openpyxl import load_workbook #该模块只支持xlsx
 import xlrd
-import gl
 
 import sys
 reload(sys)
@@ -18,7 +17,7 @@ class Drug(object):
         self.num = num
 
 
-def openxl(name):
+def openxl(name,gl):
     # 进行初始化，获取表单的页码和行列数
     init_workbook = xlrd.open_workbook(name)
     worksheet = init_workbook.sheets()[0]
